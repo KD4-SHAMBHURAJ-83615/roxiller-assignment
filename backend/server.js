@@ -1,9 +1,11 @@
 const express = require('express');
 const axios = require('axios');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const PORT = 5000;
 
@@ -28,9 +30,9 @@ const Transaction = mongoose.model('Transaction', transactionSchema);
 app.get('/api/transactions', async (req, res) => {
   const { search = '', page = 1, perPage = 10, month } = req.query;
   
-  const monthIndex = new Date(`${month} 1, 2023`).getMonth(); // Convert month name to index
+  const monthIndex = new Date(`${month} 1, 2022`).getMonth(); // Convert month name to index
   const startDate = new Date(2020, monthIndex, 1);
-  const endDate = new Date(2023, monthIndex + 1, 0);
+  const endDate = new Date(2022, monthIndex + 1, 0);
 
   const query = {
     dateOfSale: { $gte: startDate, $lte: endDate },
@@ -52,9 +54,9 @@ app.get('/api/transactions', async (req, res) => {
 app.get('/api/statistics', async (req, res) => {
   const { month } = req.query;
 
-  const monthIndex = new Date(`${month} 1, 2023`).getMonth();
+  const monthIndex = new Date(`${month} 1, 2022`).getMonth();
   const startDate = new Date(2020, monthIndex, 1);
-  const endDate = new Date(2023, monthIndex + 1, 0);
+  const endDate = new Date(2022, monthIndex + 1, 0);
 
   const totalSaleAmount = await Transaction.aggregate([
     { $match: { dateOfSale: { $gte: startDate, $lte: endDate } } },
@@ -77,9 +79,9 @@ app.get('/api/statistics', async (req, res) => {
 app.get('/api/bar-chart', async (req, res) => {
   const { month } = req.query;
 
-  const monthIndex = new Date(`${month} 1, 2023`).getMonth();
+  const monthIndex = new Date(`${month} 1, 2022`).getMonth();
   const startDate = new Date(2020, monthIndex, 1);
-  const endDate = new Date(2023, monthIndex + 1, 0);
+  const endDate = new Date(2022, monthIndex + 1, 0);
 
   const priceRanges = [
     [0, 100], [101, 200], [201, 300], [301, 400], [401, 500],
@@ -102,9 +104,9 @@ app.get('/api/bar-chart', async (req, res) => {
 app.get('/api/pie-chart', async (req, res) => {
   const { month } = req.query;
 
-  const monthIndex = new Date(`${month} 1, 2023`).getMonth();
+  const monthIndex = new Date(`${month} 1, 2022`).getMonth();
   const startDate = new Date(2020, monthIndex, 1);
-  const endDate = new Date(2023, monthIndex + 1, 0);
+  const endDate = new Date(2022, monthIndex + 1, 0);
 
   const categoryData = await Transaction.aggregate([
     { $match: { dateOfSale: { $gte: startDate, $lte: endDate } } },
