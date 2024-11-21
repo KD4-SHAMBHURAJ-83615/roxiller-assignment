@@ -36,20 +36,22 @@ const TransactionsTable = ({ month, search, setSearch }) => {
       <table className="table table-bordered" >
         <thead>
           <tr>
+          <th>Id</th>
             <th>Title</th>
             <th>Description</th>
             <th>Price</th>
-            <th>Date of Sale</th>
+            <th>Category</th>
             <th>Sold</th>
           </tr>
         </thead>
         <tbody>
           {transactions.map((txn, index) => (
             <tr key={index}>
+              <td>{index + 1}</td>
               <td>{txn.title}</td>
               <td>{txn.description}</td>
               <td>${txn.price}</td>
-              <td>{new Date(txn.dateOfSale).toLocaleDateString()}</td>
+              <td>{txn.category}</td>
               <td>{txn.sold ? 'Yes' : 'No'}</td>
             </tr>
           ))}
